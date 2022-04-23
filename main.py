@@ -60,15 +60,6 @@ class Automata():
         except:
             print("ERROR EN METODO ISVALID")
 
-    #def initDelta(self):
-    #    try:
-    #        a = [""]
-    #        for _ in range(self.nStates):
-    #            self.deltaStates.append(a)
-    #    except:
-    #        print("ERROR DELTA")
-
-
 def main():
 
     while True:
@@ -94,17 +85,6 @@ def main():
         try:
             archivo = open(path)    #El archivo .txt como objeto
             data = archivo.read()   #data contiene el texto tipo string
-
-        ######################################
-        ##                                  ##
-        ##      Procesador de texto         ##
-        ##          EN DESUSO               ##
-        ######################################
-
-            #texto = "" #Variable de texto vacía
-            #for c in data:
-            #    if(c != "\n"):
-            #        texto = texto + c   #Agrega las letras que no sean enter ni espacio
 
         ######################################
         ##                                  ##
@@ -140,7 +120,6 @@ def main():
                                 tempNumber += n
 
                         Auto.createStates(int(tempNumber))
-                        #print(c) DEBUG
 
                     if ((i not in positions) and (Auto.s == 0)):
                         for n in tempString:
@@ -149,7 +128,6 @@ def main():
 
                         Auto.s = int(tempNumber)
                         positions.append(i)
-                        #print(AF.s) DEBUG
 
                     if ((i not in positions) and (Auto.finalStates == 0)):
                         for n in tempString:
@@ -158,7 +136,6 @@ def main():
 
                         Auto.finalStates = int(tempNumber)
                         positions.append(i)
-                        #print(AF.s) DEBUG
 
                     i += 1
                     tempString = ""
@@ -219,8 +196,6 @@ def main():
             if (len(Auto.fStates) >= Auto.finalStates):
                 fflag = False
 
-            #print(Auto.states, Auto.s, Auto.finalStates, Auto.sigma, Auto.fStates, sigFlag, fflag, tempString)  #DEBUG
-
         ###########################################
         ##                                       ##
         ##    Crear cadena para transicion       ##
@@ -245,7 +220,6 @@ def main():
                 if (tempI == 2 and sigFlag and fflag):
                     tempFlag = True
 
-            #Auto.initDelta()
             tempFlag = False    #Reset bandera temporal
             mflag = False
             tempA = [""]      #Reset las posiciones
@@ -269,7 +243,6 @@ def main():
                     #
                     #   Agregar [] con deltaStates.append sin usar auto.initDelta
                     #   > 0 | 12
-                    #print(tempTempString)       #DEBUG
                     for s in tempTempString:
                         if (s == "|"):
                             tempA.append("")
@@ -282,8 +255,6 @@ def main():
                     tempTempString = ""
                     i = 0
                     tempA = [""]
-
-            #print(Auto.deltaStates)
 
         ######################################
         ##                                  ##
