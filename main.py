@@ -1,4 +1,4 @@
-import os
+import os, conversion
 
 class Automata():
     def __init__(self):
@@ -262,41 +262,49 @@ def main():
         ##                                  ##
         ######################################
 
-            cadena = input("Inserte cadena: ")
-            for c in cadena:
-                if (c in Auto.sigma):
-                    Auto.delta(c)
-                else:
-                    print("Error, {} no esta en sigma".format(c))
-            try:
-                if (Auto.isValid()):
-                    print("Cadena Aceptada")
-                    input("...")
-                    archivo.close()
+            print("OPCIONES")
+            print("E) Evaluar Cadena")
+            print("C) Convertir AFND -> AFD")
+            print("M) Minimizar Automata")
+            print("S) Salir")
+            print("")
+            cursor = input(">>")
+
+            if (cursor.upper() == "E"):
+                os.system("cls")
+                print(data)
+                cadena = input("Inserte cadena: ")
+                for c in cadena:
+                    if (c in Auto.sigma):
+                        Auto.delta(c)
+                    else:
+                        print("Error, {} no esta en sigma".format(c))
+                try:
+                    if (Auto.isValid()):
+                        input("Cadena Aceptada...")
+                        archivo.close()
+                        os.system('cls')
+                    else:
+                        input("Cadena Rechazada...")
+                        archivo.close()
+                        os.system('cls')
+                except:
+                    input("ERROR INVOCANDO ISVALID()...")
                     os.system('cls')
-                else:
-                    print("Cadena Rechazada")
-                    input("...")
-                    archivo.close()
+            if (cursor.upper() == "S"):
+                ######################################
+                ##                                  ##
+                ##       Cerrar archivo .txt        ##
+                ##                                  ##
+                ######################################
+                os.system('cls')
+                print(data)
+                setting = input("TERMINAR PROGRAMA (Y/N): ")
+                if (setting.upper() == "Y"):
                     os.system('cls')
-            except:
-                print("ERROR INVOCANDO ISVALID()")
-                input("...")
-                os.system('cls')
-
-        ######################################
-        ##                                  ##
-        ##       Cerrar archivo .txt        ##
-        ##                                  ##
-        ######################################
-
-            setting = input("TERMINAR PROGRAMA (Y/N): ")
-            if (setting.lower() == "y"):
-                os.system('cls')
-                archivo.close()
-                break
-
-            os.system('cls')
+                    archivo.close()
+                    break
+            os.system("cls")
 
         except:
             print("No existe", path)    #En caso de que el titulo del archivo esté mal
