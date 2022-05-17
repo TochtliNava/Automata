@@ -291,6 +291,20 @@ def main():
                 except:
                     input("ERROR INVOCANDO ISVALID()...")
                     os.system('cls')
+
+            if (cursor.upper() == "C"):
+                try:
+                    if (conversion.toAFD(Auto)):
+                        os.system("cls")
+                        print("YES")
+                        input()
+                    if (not conversion.toAFD(Auto)):
+                        os.system("cls")
+                        print(data)
+                        input("--El Automata ya es determinista--")
+                except:
+                    print("Error en conversion")
+                    
             if (cursor.upper() == "S"):
                 ######################################
                 ##                                  ##

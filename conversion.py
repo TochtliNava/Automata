@@ -4,3 +4,7 @@ def isAFND(AF):
             return True
     return False
 
+def toAFD(AF):
+    if (isAFND(AF)):
+        return True
+    return False
