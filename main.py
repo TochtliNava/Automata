@@ -294,11 +294,10 @@ def main():
 
             if (cursor.upper() == "C"):
                 try:
-                    if (conversion.toAFD(Auto)):
+                    if (conversion.isAFND(Auto)):
+                        conversion.toAFD(Auto, data)
                         os.system("cls")
-                        print("YES")
-                        input()
-                    if (not conversion.toAFD(Auto)):
+                    if (not conversion.isAFND(Auto)):
                         os.system("cls")
                         print(data)
                         input("--El Automata ya es determinista--")
