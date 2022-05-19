@@ -304,7 +304,12 @@ def main():
                         input("--El Automata ya es determinista--")
                 except:
                     print("Error en conversion")
-                    
+
+            if (cursor.upper() == "D"):
+                os.system("cls")
+                print(Auto.deltaStates)
+                input()
+
             if (cursor.upper() == "S"):
                 ######################################
                 ##                                  ##
@@ -328,4 +333,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()                              #Main
+    main()
