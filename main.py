@@ -1,4 +1,4 @@
-import os, conversion
+import os, conversion, minimizacion
 
 class Automata():
     def __init__(self):
@@ -302,11 +302,24 @@ def main():
                         print(data)
                         input("--El Automata ya es determinista--")
                 except:
-                    print("Error en conversion")
+                    input("Error en conversion")
 
-            if (cursor.upper() == "D"):
+            if (cursor.upper() == "M"):
                 os.system("cls")
-                print(Auto.deltaStates)
+                if (conversion.isAFND(Auto)):
+                    conversion.toAFD(Auto, data)
+                    Q, sQ, fQ = conversion.obtenerDatos()
+                    minimizacion.minimizarAFD(Q, sQ, fQ)
+                    input()
+                    os.system("cls")
+                if (not conversion.isAFND(Auto)):
+                    os.system("cls")
+                    try:
+                        minimizacion.minimizarAFD(Auto.states, Auto.deltaStates, Auto.fStates)
+                    except:
+                        input("ERROR INVOCANDO MINIMIZACION")
+                    input()
+                    os.system("cls")
                 input()
 
             if (cursor.upper() == "S"):

@@ -1,16 +1,18 @@
 from collections import OrderedDict
 import os
 
+Q = ["0"]
+dQ = []    #Tiene a los de q0 por defecto
+fQ = []
+
 def isAFND(AF):
     for d in AF.deltaStates:
         for c in d:
-            if (len(d) >= 2):
+            if (len(c) >= 2 and c != "NULL"):
                 return True
     return False
 
 def toAFD(AF, data):
-    Q = ["0"]
-    dQ = []    #Tiene a los de q0 por defecto
     tempDq = []
     indice = 0
     fin = 0
@@ -24,11 +26,12 @@ def toAFD(AF, data):
                     for letra in Q[estado]:
                         if (AF.deltaStates[int(letra)][int(Segma)] != "NULL"):
                             tempDq[indice] += AF.deltaStates[int(letra)][int(Segma)]
+                            tempDq[indice] = sorted(tempDq[indice])
                     tempDq[indice] = quitarRepetidos(tempDq[indice])
                     indice += 1
-                    
+
                 for nuevoEstado in tempDq:
-                    if (nuevoEstado not in Q):
+                    if (nuevoEstado not in Q and nuevoEstado != ""):
                         Q.append(nuevoEstado)
                     else:
                         fin += 1
@@ -42,16 +45,19 @@ def toAFD(AF, data):
             for Segma in range(len(AF.sigma)):
                 tempDq.append("")
                 for letra in Q[estado]:
-                    if (AF.deltaStates[int(letra)][int(Segma)] != "NULL"):
+                    if (len(tempDq[indice]) == 0):
                         tempDq[indice] += AF.deltaStates[int(letra)][int(Segma)]
-                tempDq[indice] = quitarRepetidos(tempDq[indice])
+                    else:
+                        if (AF.deltaStates[int(letra)][int(Segma)] != "NULL"):
+                            tempDq[indice] += AF.deltaStates[int(letra)][int(Segma)]
+                        tempDq[indice] = quitarRepetidos(tempDq[indice])
+                    tempDq[indice] = "".join(sorted(tempDq[indice]))
                 indice += 1
-
-
             dQ.append(tempDq)
-
             tempDq = []
             indice = 0
+
+        
     except:
         print("ERROR EN Eq -> Q")
         
@@ -62,6 +68,11 @@ def toAFD(AF, data):
             for digito in Q[estado]:
                 if (digito in AF.fStates):
                     fs += 1
+
+        for estado in range(len(Q)):
+            for digito in Q[estado]:
+                if (digito in AF.fStates and Q[estado] not in fQ):
+                    fQ.append(Q[estado])
     
     except:
         print("ERROR EN ESOT")
@@ -76,10 +87,7 @@ def toAFD(AF, data):
         print(fs)
         print("Sig{", AF.sigma, "}")
         print("F{")
-        for estado in range(len(Q)):
-            for digito in Q[estado]:
-                if (digito in AF.fStates):
-                    print(Q[estado])
+        print(fQ)
         print("}")
         print("{")
         for estado in range(len(Q)):
@@ -90,5 +98,8 @@ def toAFD(AF, data):
         input("ERROR EN IMPRESION DE")
 
 
-def quitarRepetidos(str): 
+def quitarRepetidos(str):
     return "".join(OrderedDict.fromkeys(str))
+
+def obtenerDatos():
+    return Q, dQ, fQ
