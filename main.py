@@ -59,6 +59,23 @@ class Automata():
                 return False
         except:
             print("ERROR EN METODO ISVALID")
+    
+    def resetAutomata(self):
+        self.nStates = 0;
+        self.states = []        #Contenedor de los estados
+
+        self.pos = 0
+
+        self.s = 0              #Cuantos x | x∈σ
+        self.sigma = []         #Contenedor de el alfabeto
+
+        self.finalStates = 0    #Cuantos estados finales hay
+        self.fStates = []       #Cuales estados son finales
+
+        self.actualState = ["0"]   #Estado actual
+        self.tempStates = []
+
+        self.deltaStates = []
 
 def main():
 
@@ -102,6 +119,7 @@ def main():
             sigFlag = False     #Bandera sigma
             fflag = False       #Bandera estados finales
             tempFlag = False    #Bandera temporal
+            oflag = False
 
         ######################################
         ##                                  ##
@@ -265,7 +283,8 @@ def main():
             print("OPCIONES")
             print("E) Evaluar Cadena")
             print("C) Convertir AFND -> AFD")
-            print("M) Minimizar Automata")
+            if (not oflag):
+                print("M) Minimizar Automata") 
             print("S) Salir")
             print("")
             cursor = input(">>")
@@ -304,23 +323,26 @@ def main():
                 except:
                     input("Error en conversion")
 
-            if (cursor.upper() == "M"):
+            if (cursor.upper() == "M" and not oflag):
+                oflag = True
                 os.system("cls")
                 if (conversion.isAFND(Auto)):
                     conversion.toAFD(Auto, data)
                     Q, sQ, fQ = conversion.obtenerDatos()
-                    minimizacion.minimizarAFD(Q, sQ, fQ)
+                    Auto.states = Q
+                    Auto.deltaStates = sQ
+                    Auto.fStates = fQ
+                    minimizacion.minimizarAFD(Auto)
                     input()
                     os.system("cls")
                 if (not conversion.isAFND(Auto)):
                     os.system("cls")
                     try:
-                        minimizacion.minimizarAFD(Auto.states, Auto.deltaStates, Auto.fStates)
+                        minimizacion.minimizarAFD(Auto)
                     except:
                         input("ERROR INVOCANDO MINIMIZACION")
                     input()
                     os.system("cls")
-                input()
 
             if (cursor.upper() == "S"):
                 ######################################
@@ -336,6 +358,7 @@ def main():
                     archivo.close()
                     break
             os.system("cls")
+            Auto.resetAutomata()    #RESET AUTOMATA
 
         except:
             print("No existe", path)    #En caso de que el titulo del archivo esté mal

@@ -1,10 +1,14 @@
-def minimizarAFD(Q, sQ, fQ):
+import os
+
+def minimizarAFD(Automata):
+    os.system("cls")
     partition = []
     tempArr = []
-    partition.append(fQ)
-    print(Q)
+    partition.append(Automata.fStates)
+    diQ = dict(zip(Automata.states, Automata.deltaStates))
+    print(diQ)
     try:
-        for q in Q:
+        for q in Automata.states:
             if (q not in partition[0]):
                 try:
                     tempArr.append(q)
@@ -14,4 +18,36 @@ def minimizarAFD(Q, sQ, fQ):
     except:
         input("ERROR EN AÑADIR PARTES DE PARTITION")
     tempArr = []
+    temp = []
+    print("----PARTICIONES----")
+    print()
     print(f"π{0} = {partition}")
+
+    #   [[Q1], [Q2, Q3, Q4]]
+    #   -->
+    #   [[Q1],[Q2, Q3],[Q4]]
+
+    turno = 1
+    for miniParticion in partition:
+        if (len(miniParticion) > 1):
+            for sigma in range(len(Automata.sigma)):
+                i = 0
+                temp = []
+                for estado in miniParticion:
+                    if (i == 0):
+                        tmQ = diQ[estado][sigma]
+                        tQ = estado
+                    if (diQ[estado][sigma] != tmQ and i != 0):
+                        temp.append(tQ)
+                    tmQ = diQ[estado][sigma]
+                    tQ = estado
+                    i += 1
+                for mmπ in range(len(partition)):
+                    for eQ in partition[mmπ]:
+                        if (eQ in tempArr):
+                            partition[mmπ].remove(eQ)
+                if (len(tempArr) != 0 and tempArr not in partition):
+                    partition.append(tempArr)
+                    print(f"π{turno} = {partition}")
+                    turno += 1
+                tempArr = []

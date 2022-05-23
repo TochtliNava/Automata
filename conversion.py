@@ -5,6 +5,11 @@ Q = ["0"]
 dQ = []    #Tiene a los de q0 por defecto
 fQ = []
 
+def setZero():
+    Q = ["0"]
+    dQ = []    #Tiene a los de q0 por defecto
+    fQ = []
+
 def isAFND(AF):
     for d in AF.deltaStates:
         for c in d:
@@ -13,6 +18,7 @@ def isAFND(AF):
     return False
 
 def toAFD(AF, data):
+    setZero()
     tempDq = []
     indice = 0
     fin = 0
@@ -42,16 +48,24 @@ def toAFD(AF, data):
             fin = 0
             
         for estado in range(len(Q)):
+            #[Q1, Q2, ..., Qn]
             for Segma in range(len(AF.sigma)):
+                #[a,b,c,...,X]
                 tempDq.append("")
+                #["" + ""] -> ["", ""]
                 for letra in Q[estado]:
-                    if (len(tempDq[indice]) == 0):
+                    #Q1 = abc --> a, b, c
+                    #if (len(tempDq[indice]) == 0):
+                    #    tempDq[indice] += AF.deltaStates[int(letra)][int(Segma)]
+                    #else:
+                    if (len(tempDq[indice]) == 0 and AF.deltaStates[int(letra)][int(Segma)] == "NULL"):
                         tempDq[indice] += AF.deltaStates[int(letra)][int(Segma)]
-                    else:
-                        if (AF.deltaStates[int(letra)][int(Segma)] != "NULL"):
-                            tempDq[indice] += AF.deltaStates[int(letra)][int(Segma)]
+                    if (AF.deltaStates[int(letra)][int(Segma)] != "NULL"):
+                        if ("NULL" == tempDq[indice]):
+                            tempDq[indice] = ""
+                        tempDq[indice] += AF.deltaStates[int(letra)][int(Segma)]
                         tempDq[indice] = quitarRepetidos(tempDq[indice])
-                    tempDq[indice] = "".join(sorted(tempDq[indice]))
+                        tempDq[indice] = "".join(sorted(tempDq[indice]))
                 indice += 1
             dQ.append(tempDq)
             tempDq = []
