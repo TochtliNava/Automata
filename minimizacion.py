@@ -30,24 +30,24 @@ def minimizarAFD(Automata):
     turno = 1
     for miniParticion in partition:
         if (len(miniParticion) > 1):
-            for sigma in range(len(Automata.sigma)):
-                i = 0
-                temp = []
-                for estado in miniParticion:
-                    if (i == 0):
-                        tmQ = diQ[estado][sigma]
-                        tQ = estado
-                    if (diQ[estado][sigma] != tmQ and i != 0):
-                        temp.append(tQ)
-                    tmQ = diQ[estado][sigma]
+            i = 0
+            temp = []
+            for estado in miniParticion:
+                if (i == 0):
+                    tmQ = diQ[estado]
                     tQ = estado
-                    i += 1
-                for mmπ in range(len(partition)):
-                    for eQ in partition[mmπ]:
-                        if (eQ in tempArr):
-                            partition[mmπ].remove(eQ)
-                if (len(tempArr) != 0 and tempArr not in partition):
-                    partition.append(tempArr)
-                    print(f"π{turno} = {partition}")
-                    turno += 1
-                tempArr = []
+                if (diQ[estado] != tmQ and i != 0):
+                    tempArr.append(tQ)
+                    tempArr.append(estado)
+                tmQ = diQ[estado]
+                tQ = estado
+                i += 1
+            for mmπ in range(len(partition)):
+                for eQ in partition[mmπ]:
+                    if (eQ in tempArr):
+                        partition[mmπ].remove(eQ)
+            if (len(tempArr) != 0 and (tempArr not in partition)):
+                partition.append(tempArr)
+                print(f"π{turno} = {partition}")
+            turno += 1
+            tempArr = []
