@@ -36,7 +36,7 @@ def minimizarAFD(Automata):
                 if (i == 0):
                     tmQ = diQ[estado]
                     tQ = estado
-                if (diQ[estado] != tmQ and i != 0):
+                if (diQ[estado] != tmQ and i != 0): #REDISEÑAR
                     tempArr.append(tQ)
                     tempArr.append(estado)
                 tmQ = diQ[estado]
