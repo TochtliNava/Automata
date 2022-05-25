@@ -30,14 +30,16 @@ def minimizarAFD(Automata):
     partition = []
     estados = Automata.states
 
-    for i in estados:
-        tmp = []
-        #A -> [] from [[], [], []]
-        for u in estados:
-            if (diQ[i] == diQ[u] and i != u):
-                tmp.append(u)
-                estados.remove(u)
-        tmp.append(i)
-        estados.remove(i)
-        partition.append(tmp)
+    while (len(estados) > 0):
+        for i in estados:
+            tmp = []
+            #A -> [] from [[], [], []]
+            for u in estados:
+                if (diQ[i] == diQ[u] and i != u):
+                    tmp.append(u)
+                    estados.remove(u)
+            tmp.append(i)
+            estados.remove(i)
+            partition.append(tmp)
+    
     print(partition)
